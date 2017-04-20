@@ -1,11 +1,5 @@
-<?php // Script 8.9 - register.php
-/* This page lets people register for the site (in theory). */
-date_default_timezone_set('Europe/Athens');
-// Set the page title and include the header file:
-define('TITLE', 'Register');
-define('H1', 'Register here');
+<?php 
 
-include('templates/headerlogin.html');
 
 
 	
@@ -50,33 +44,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$emaildb = mysqli_real_escape_string($dbc, trim(strip_tags($_POST['email'])));
 		$password = mysqli_real_escape_string($dbc, trim(strip_tags($_POST['password1'])));
 	 	
-			/*  +----------+-------------+------+-----+---------+----------------+
-				| Field    | Type        | Null | Key | Default | Extra          |
-				+----------+-------------+------+-----+---------+----------------+
-				| userID   | int(9)      | NO   | PRI | NULL    | auto_increment |
-				| fullname | varchar(50) | NO   |     | NULL    |                |
-				| userName | varchar(40) | NO   |     | NULL    |                |
-				| email    | varchar(40) | NO   |     | NULL    |                |
-				| pass     | varchar(40) | NO   |     | NULL    |                |
-				+----------+-------------+------+-----+---------+----------------+
 
-			*/
 		$query = "INSERT INTO users ( userID, email, pass, userName, fullname ) VALUES  
 		( Null,'$emaildb', '$password', '$name', '$lastName' )";
 
 		//mia if gia to an katafera na grafto
 				// Execute the query:
 		if (@mysqli_query($dbc, $query)) {
-			//edw vazw to session gia na kratisw to log in
+
+			//here we start the session for the cookie
+			//we can hold info we like to use
 			session_start();
 			$_SESSION['emailLogin'] = $name;
 			$_SESSION['time'] = date('g:i a l F j');
 			$_SESSION['name'] = $_POST['first_name'];
-			mail($emaildb, 'Register in My cv', 'Thank you that found a little time to see my quiz game');
-			mail('erevos@orfeasvou.com', 'CV', $emaildb. ' is lookin my site');
+			
 			ob_end_clean();
-			//here i have to make the site i wold like to go
-			header("Location: one.php");
+			
 			exit();
 			
 
@@ -116,6 +100,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<p><input type="submit" name="submit" value="Register!"></p>
 	
 </form>
-<p class="register"><a href="index.php"><button>Login</button></a></p>
 
-<?php include('templates/footer.html'); // Need the footer. ?>
